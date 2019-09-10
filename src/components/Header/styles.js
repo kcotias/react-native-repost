@@ -4,7 +4,7 @@ import themeStyles from '@config/theme.styles.js';
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 50,
+    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: themeStyles.FONT_WEIGHT_MEDIUM,
-    fontSize: themeStyles.FONT_SIZE_MEDIUM,
+    fontSize: themeStyles.FONT_SIZE_LARGE,
   },
   flexAlign: { flex: 1, alignItems: 'center' },
 });
