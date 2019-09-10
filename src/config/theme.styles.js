@@ -10,7 +10,8 @@ export default {
   FONT_WEIGHT_HEAVY: '800',
 
   // COLORS
-  PRIMARY_COLOR: 'rgb(30, 147, 242)',
-  SECONDARY_COLOR: 'rgb(238, 167, 2)',
+  PRIMARY_COLOR: '#c4275d',
+  SECONDARY_COLOR: '#ea6557',
+  ALTERNATE_COLOR: '#24266c',
   ERROR_COLOR: 'red',
 };
