@@ -1,32 +1,102 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Linking, Clipboard } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Linking,
+  Clipboard,
+  Alert,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import Header from '@components/Header/Header';
 import styles from './styles';
 import GradientButton from '../../components/Button/Button';
 import themeStyles from '../../config/theme.styles';
+import AsyncStorage from '@react-native-community/async-storage';
+import RepostItem from '../../components/RepostItem/RepostItem';
 
 const Home = () => {
   const [url, setUrl] = useState('');
+  const [reposts, setReposts] = useState([]);
+
   async function getUrl() {
     let clipUrl = await Clipboard.getString();
     setUrl(clipUrl);
   }
   function getData(link) {
+    console.log(link);
     return link
       ? fetch(`https://api.instagram.com/oembed/?url=${link}`)
           .then(response => response.json())
-          .then(responseJson => console.log(responseJson))
+          .then(responseJson => {
+            if (responseJson.author_name) {
+              let repostArray = [];
+              repostArray = reposts;
+              console.log('repostArray');
+              console.log(repostArray);
+              repostArray.push(responseJson);
+              setReposts(repostArray);
+              storeData(repostArray);
+            } else {
+              Alert.alert('Link inválido', 'Os dados copiados não são válidos');
+            }
+          })
           .catch(error => console.log(error))
       : null;
   }
   useEffect(() => {
+    //clearAll();
+    getReposts();
     getUrl();
-    getData(url);
   }, [url]);
 
-  return (
-    <View style={{ flex: 1 }}>
-      <Header />
+  const storeData = async value => {
+    try {
+      await AsyncStorage.setItem('@repost_list', JSON.stringify(value));
+      console.log('dados salvos');
+      console.log(value);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getReposts = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@repost_list');
+      if (value !== null) {
+        console.log('dados recuperados');
+        console.log(JSON.parse(value));
+
+        setReposts(JSON.parse(value));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      // clear error
+    }
+
+    console.log('Done.');
+  };
+
+  const renderItem = item => {
+    return (
+      <RepostItem
+        thumbnail={{ uri: item.thumbnail_url }}
+        author={item.author_name}
+        description={item.title}
+      />
+    );
+  };
+
+  const handleRender = () => {
+    return !reposts ? (
       <View style={styles.container}>
         <View style={{ alignItems: 'flex-start' }}>
           <View style={styles.textWrapper}>
@@ -73,11 +143,27 @@ const Home = () => {
         <GradientButton
           text="Done!"
           onPress={() => {
-            getUrl();
-            alert(url);
+            getUrl().then(() => {
+              getData(url);
+            });
           }}
         />
       </View>
+    ) : (
+      <ScrollView>
+        <FlatList
+          keyExtractor={(item, index) => JSON.stringify(index)}
+          renderItem={({ item }) => renderItem(item)}
+          data={reposts}
+        />
+      </ScrollView>
+    );
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Header />
+      {handleRender()}
     </View>
   );
 };
