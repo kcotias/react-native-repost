@@ -1,10 +1,19 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import styles from './styles';
 
 const Header = () => {
   return (
-    <View>
-      <Text></Text>
+    <View style={styles.container}>
+      <View style={styles.flexAlign} />
+      <View style={styles.flexAlign}>
+        <Text style={styles.title}>Repost</Text>
+      </View>
+      <View style={styles.flexAlign}>
+        <TouchableOpacity>
+          <Text>Link</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
