@@ -10,3 +10,11 @@ Git Clone the Rep. <br>
 
 
 Disclaimer: This project was built using an IPHONE X, IPHONE 8, IPHONE 8 PLUS as model, i suggest you to run one of these on the emulator to test.
+
+TROUBLESHOOTING: 
+When building for android they may require the debug.keystore, follow the instructions below:
+
+You can generate the debug keystore by running this command in the android/app/ directory: 
+`keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000`
+
+
