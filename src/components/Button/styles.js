@@ -16,12 +16,13 @@ const styles = StyleSheet.create({
   btn: {
     borderRadius: 40,
     paddingHorizontal: 30,
-    paddingVertical: 5,
+    paddingVertical: 8,
   },
   text: {
     fontWeight: themeStyles.FONT_WEIGHT_MEDIUM,
-    fontSize: 24,
+    fontSize: 22,
     color: '#fff',
+    alignSelf: 'center',
   },
 });
 

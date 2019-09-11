@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import styles from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Header = () => {
   return (
@@ -10,8 +11,10 @@ const Header = () => {
         <Text style={styles.title}>Repost</Text>
       </View>
       <View style={styles.flexAlign}>
-        <TouchableOpacity>
-          <Text>Link</Text>
+        <TouchableOpacity
+          onPress={() => Linking.openURL('instagram://app')}
+          style={{ alignSelf: 'flex-end', marginRight: 10 }}>
+          <Icon name="instagram" size={25} color="black" />
         </TouchableOpacity>
       </View>
     </View>

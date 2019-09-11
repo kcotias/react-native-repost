@@ -42,7 +42,9 @@ const Home = () => {
               Alert.alert('Link inválido', 'Os dados copiados não são válidos');
             }
           })
-          .catch(error => console.log(error))
+          .catch(() =>
+            Alert.alert('Link inválido', 'Os dados copiados não são válidos'),
+          )
       : null;
   }
   useEffect(() => {
@@ -150,12 +152,22 @@ const Home = () => {
         />
       </View>
     ) : (
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
         <FlatList
           keyExtractor={(item, index) => JSON.stringify(index)}
           renderItem={({ item }) => renderItem(item)}
           data={reposts}
         />
+        <View style={{ paddingBottom: 10 }}>
+          <GradientButton
+            text="Add more"
+            onPress={() => {
+              getUrl().then(() => {
+                getData(url);
+              });
+            }}
+          />
+        </View>
       </ScrollView>
     );
   };
