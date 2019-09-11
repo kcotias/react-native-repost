@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1075817249044",
+    "firebase_url": "https://repost-5707d.firebaseio.com",
+    "project_id": "repost-5707d",
+    "storage_bucket": "repost-5707d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075817249044:android:7df38eb5ea2dd834582a01",
+        "android_client_info": {
+          "package_name": "com.repost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075817249044-o2s9a1dhjpkb38tqie9i8a7999kv5lj5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOlfBgcZ-V6CmRxwKraZdjQ3fCSUJCAtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075817249044-o2s9a1dhjpkb38tqie9i8a7999kv5lj5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

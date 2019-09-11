@@ -2,10 +2,11 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from '@pages/Home/Home';
 import Repost from '@pages/Repost/Repost';
+import Login from '@pages/Login/Login';
 
 const Routes = createStackNavigator({
   LOGIN: {
-    screen: Home,
+    screen: Login,
     navigationOptions: () => ({
       header: null,
     }),
