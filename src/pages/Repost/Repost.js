@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Image, Clipboard, Alert } from 'react-native';
-import GradientButton from '../../components/Button/Button';
-import Header from '../../components/Header/Header';
+import { View, Image, Clipboard, Alert, StyleSheet } from 'react-native';
+import GradientButton from '@components/Button/Button';
+import Header from '@components/Header/Header';
 
 const Repost = ({ navigation }) => {
   const thumbnail = navigation.getParam('thumbnail', '');
@@ -9,7 +9,7 @@ const Repost = ({ navigation }) => {
   return (
     <View>
       <Header hasBackButton onBackPress={() => navigation.goBack()} />
-      <Image style={{ height: 300, margin: 10 }} source={thumbnail} />
+      <Image style={styles.img} source={thumbnail} />
       <GradientButton
         text="Repost"
         onPress={() => {
@@ -20,4 +20,9 @@ const Repost = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  img: { height: 300, margin: 10 },
+});
+
 export default Repost;

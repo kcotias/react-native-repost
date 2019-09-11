@@ -8,9 +8,7 @@ const Header = ({ hasBackButton, onBackPress }) => {
     <View style={styles.container}>
       <View style={styles.flexAlign}>
         {hasBackButton && (
-          <TouchableOpacity
-            onPress={onBackPress}
-            style={{ alignSelf: 'flex-start', marginLeft: 10 }}>
+          <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
             <Icon name="chevron-left" size={20} color="black" />
           </TouchableOpacity>
         )}
@@ -21,7 +19,7 @@ const Header = ({ hasBackButton, onBackPress }) => {
       <View style={styles.flexAlign}>
         <TouchableOpacity
           onPress={() => Linking.openURL('instagram://app')}
-          style={{ alignSelf: 'flex-end', marginRight: 10 }}>
+          style={styles.igBtn}>
           <Icon name="instagram" size={25} color="black" />
         </TouchableOpacity>
       </View>

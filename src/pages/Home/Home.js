@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import Header from '@components/Header/Header';
 import styles from './styles';
-import GradientButton from '../../components/Button/Button';
-import themeStyles from '../../config/theme.styles';
+import GradientButton from '@components/Button/Button';
+import themeStyles from '@config/theme.styles';
 import AsyncStorage from '@react-native-community/async-storage';
-import RepostItem from '../../components/RepostItem/RepostItem';
+import RepostItem from '@components/RepostItem/RepostItem';
 
 const Home = ({ navigation }) => {
   const [url, setUrl] = useState('');
@@ -26,7 +26,6 @@ const Home = ({ navigation }) => {
     setUrl(clipUrl);
   }
   function getData(link) {
-    console.log(link);
     return link
       ? fetch(`https://api.instagram.com/oembed/?url=${link}`)
           .then(response => response.json())
@@ -34,8 +33,6 @@ const Home = ({ navigation }) => {
             if (responseJson.author_name) {
               let repostArray = [];
               repostArray = reposts;
-              console.log('repostArray');
-              console.log(repostArray);
               repostArray.push(responseJson);
               storeData(repostArray);
             } else {
@@ -48,7 +45,6 @@ const Home = ({ navigation }) => {
       : null;
   }
   useEffect(() => {
-    //clearAll();
     getReposts();
     getUrl();
   }, [repostsLenght]);
@@ -61,10 +57,8 @@ const Home = ({ navigation }) => {
           setRepostsLenght(repostsLenght + 1);
         },
       );
-      console.log('dados salvos');
-      console.log(value);
     } catch (e) {
-      // saving error
+      console.log(e);
     }
   };
 
@@ -72,9 +66,6 @@ const Home = ({ navigation }) => {
     try {
       const value = await AsyncStorage.getItem('@repost_list');
       if (value !== null) {
-        console.log('dados recuperados');
-        console.log(JSON.parse(value));
-
         setReposts(JSON.parse(value));
       }
     } catch (e) {
@@ -89,10 +80,8 @@ const Home = ({ navigation }) => {
         setRepostsLenght(0);
       });
     } catch (e) {
-      // clear error
+      console.log(e);
     }
-
-    console.log('Done.');
   };
 
   const renderItem = item => {
@@ -114,7 +103,7 @@ const Home = ({ navigation }) => {
   const handleRender = () => {
     console.log(reposts[0]);
     return typeof reposts !== 'undefined' && reposts.length > 0 ? (
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.flex}>
         <FlatList
           extraData
           keyExtractor={(item, index) => JSON.stringify(index)}
@@ -123,7 +112,7 @@ const Home = ({ navigation }) => {
         />
         <View style={{ paddingBottom: 10 }}>
           <TouchableOpacity style={{ alignSelf: 'center' }}>
-            <Text style={{ color: 'gray' }} onPress={() => clearAll()}>
+            <Text style={styles.textColor} onPress={() => clearAll()}>
               Erase All
             </Text>
           </TouchableOpacity>
@@ -194,7 +183,7 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.flex}>
       <Header />
       {handleRender()}
     </View>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, Image, Modal, Alert } from 'react-native';
 import firebase from 'react-native-firebase';
-import themeStyles from '../../config/theme.styles';
 import GradientButton from '../../components/Button/Button';
 import styles from './styles';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Login = ({ navigation }) => {
   const [phone, setPhone] = useState('');
@@ -20,56 +20,26 @@ const Login = ({ navigation }) => {
         setConfirmResult(confirmResult);
         setModalVisible(true);
       })
-      .catch(error => Alert.alert('Ops...', 'Ocorreu um erro, tenta denovo.'));
+      .catch(() => Alert.alert('Ops...', 'Ocorreu um erro, tenta denovo.'));
   };
   return (
-    <View style={{ flex: 1, padding: 20, justifyContent: 'center' }}>
+    <View style={styles.container}>
       <Modal animationType="slide" transparent={true} visible={isModalVisible}>
-        <View
-          style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
+        <View style={[styles.container, { paddingHorizontal: 15 }]}>
           <View style={styles.modal}>
             <View
               style={{
-                ...styles.container,
-                alignItems: 'center',
-                marginTop: 5,
-                justifyContent: 'center',
-              }}></View>
-            <View
-              style={{
-                ...styles.container,
-                alignItems: 'center',
-                justifyContent: 'center',
+                ...styles.modalContainer,
                 paddingHorizontal: 40,
+                marginTop: 50,
               }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 18,
-                  marginBottom: 10,
-                  marginTop: -5,
-                }}>
-                Check your phone
-              </Text>
-              <Text
-                style={{
-                  fontWeight: '600',
-                  fontSize: 14,
-                  textAlign: 'center',
-                  marginTop: 5,
-                }}>
+              <Text style={styles.modalTitle}>Check your phone</Text>
+              <Text style={styles.modalText}>
                 We just sent a confirmation code to your number, type it below:
               </Text>
               <TextInput
                 placeholder="Type the code"
-                style={{
-                  alignSelf: 'center',
-                  margin: 10,
-                  paddingLeft: 20,
-                  backgroundColor: '#fff',
-                  width: 120,
-                  height: 44,
-                }}
+                style={styles.modalInput}
                 onChangeText={text => setCode(text)}
               />
             </View>
@@ -78,6 +48,7 @@ const Login = ({ navigation }) => {
                 confirmResultObj
                   .confirm(code)
                   .then(result => {
+                    AsyncStorage.setItem('@user', true);
                     navigation.navigate('HOME');
                   })
                   .catch(error => {
@@ -91,46 +62,21 @@ const Login = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      <View style={{ flex: 1 }}>
+      <View style={styles.flex}>
         <Image
-          style={{ height: 250, alignSelf: 'center' }}
+          style={styles.logo}
           resizeMode="contain"
           source={require('../../assets/imgs/logo.png')}
         />
       </View>
-      <View style={{ flex: 1 }}>
-        <Text
-          style={{
-            color: themeStyles.ALTERNATE_COLOR,
-            fontWeight: themeStyles.FONT_WEIGHT_MEDIUM,
-            fontSize: 20,
-          }}>
+      <View style={styles.flex}>
+        <Text style={styles.mainTitle}>
           In order to proceed we need your phone number!
         </Text>
-        <View
-          style={{
-            marginTop: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: 'gray',
-            shadowOpacity: 0.7,
-            shadowOffset: {
-              height: 4,
-              width: 4,
-            },
-            shadowRadius: 5,
-            elevation: 6,
-            paddingVertical: 8,
-          }}>
+        <View style={styles.inputWrapper}>
           <TextInput
             placeholder="Type your phone - i.e. 11991803266"
-            style={{
-              borderRadius: 40,
-              paddingLeft: 20,
-              backgroundColor: '#fff',
-              width: '100%',
-              height: 44,
-            }}
+            style={styles.input}
             onChangeText={text => setPhone(text)}
           />
         </View>

@@ -6,35 +6,18 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
-import themeStyles from '../../config/theme.styles';
+import themeStyles from '@config/theme.styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import styles from './styles';
 
 const RepostItem = ({ author, description, thumbnail, onPress }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={{ flexDirection: 'row', margin: 10, marginVertical: 5 }}>
-        <Image
-          style={{ height: 75, width: 75 }}
-          source={thumbnail}
-          resizeMode="contain"
-        />
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            paddingLeft: 10,
-          }}>
-          <Text style={{ fontWeight: themeStyles.FONT_WEIGHT_MEDIUM }}>
-            {author}
-          </Text>
-          <Text
-            style={{
-              fontWeight: themeStyles.FONT_WEIGHT_LIGHT,
-              fontSize: themeStyles.FONT_SIZE_SMALL,
-              color: 'gray',
-            }}
-            ellipsizeMode="tail"
-            numberOfLines={3}>
+      <View style={styles.container}>
+        <Image style={styles.thumb} source={thumbnail} resizeMode="contain" />
+        <View style={styles.textWrapper}>
+          <Text style={styles.title}>{author}</Text>
+          <Text style={styles.text} ellipsizeMode="tail" numberOfLines={3}>
             {description}
           </Text>
         </View>
