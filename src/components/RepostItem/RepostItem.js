@@ -9,9 +9,9 @@ import {
 import themeStyles from '../../config/theme.styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const RepostItem = ({ author, description, thumbnail }) => {
+const RepostItem = ({ author, description, thumbnail, onPress }) => {
   return (
-    <TouchableWithoutFeedback onPress={() => alert('Clicou')}>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={{ flexDirection: 'row', margin: 10, marginVertical: 5 }}>
         <Image
           style={{ height: 75, width: 75 }}

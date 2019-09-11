@@ -16,9 +16,10 @@ import themeStyles from '../../config/theme.styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import RepostItem from '../../components/RepostItem/RepostItem';
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [url, setUrl] = useState('');
   const [reposts, setReposts] = useState([]);
+  const [repostsLenght, setRepostsLenght] = useState(0);
 
   async function getUrl() {
     let clipUrl = await Clipboard.getString();
@@ -36,7 +37,6 @@ const Home = () => {
               console.log('repostArray');
               console.log(repostArray);
               repostArray.push(responseJson);
-              setReposts(repostArray);
               storeData(repostArray);
             } else {
               Alert.alert('Link inválido', 'Os dados copiados não são válidos');
@@ -51,11 +51,16 @@ const Home = () => {
     //clearAll();
     getReposts();
     getUrl();
-  }, [url]);
+  }, [repostsLenght]);
 
   const storeData = async value => {
     try {
-      await AsyncStorage.setItem('@repost_list', JSON.stringify(value));
+      await AsyncStorage.setItem('@repost_list', JSON.stringify(value)).then(
+        () => {
+          setReposts(value);
+          setRepostsLenght(repostsLenght + 1);
+        },
+      );
       console.log('dados salvos');
       console.log(value);
     } catch (e) {
@@ -79,7 +84,10 @@ const Home = () => {
 
   const clearAll = async () => {
     try {
-      await AsyncStorage.clear();
+      await AsyncStorage.clear().then(() => {
+        setReposts([]);
+        setRepostsLenght(0);
+      });
     } catch (e) {
       // clear error
     }
@@ -90,6 +98,12 @@ const Home = () => {
   const renderItem = item => {
     return (
       <RepostItem
+        onPress={() =>
+          navigation.navigate('REPOST', {
+            thumbnail: { uri: item.thumbnail_url },
+            description: item.title,
+          })
+        }
         thumbnail={{ uri: item.thumbnail_url }}
         author={item.author_name}
         description={item.title}
@@ -98,7 +112,32 @@ const Home = () => {
   };
 
   const handleRender = () => {
-    return !reposts ? (
+    console.log(reposts[0]);
+    return typeof reposts !== 'undefined' && reposts.length > 0 ? (
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <FlatList
+          extraData
+          keyExtractor={(item, index) => JSON.stringify(index)}
+          renderItem={({ item }) => renderItem(item)}
+          data={reposts}
+        />
+        <View style={{ paddingBottom: 10 }}>
+          <TouchableOpacity style={{ alignSelf: 'center' }}>
+            <Text style={{ color: 'gray' }} onPress={() => clearAll()}>
+              Erase All
+            </Text>
+          </TouchableOpacity>
+          <GradientButton
+            text="Add more"
+            onPress={() => {
+              getUrl().then(() => {
+                getData(url);
+              });
+            }}
+          />
+        </View>
+      </ScrollView>
+    ) : (
       <View style={styles.container}>
         <View style={{ alignItems: 'flex-start' }}>
           <View style={styles.textWrapper}>
@@ -151,24 +190,6 @@ const Home = () => {
           }}
         />
       </View>
-    ) : (
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <FlatList
-          keyExtractor={(item, index) => JSON.stringify(index)}
-          renderItem={({ item }) => renderItem(item)}
-          data={reposts}
-        />
-        <View style={{ paddingBottom: 10 }}>
-          <GradientButton
-            text="Add more"
-            onPress={() => {
-              getUrl().then(() => {
-                getData(url);
-              });
-            }}
-          />
-        </View>
-      </ScrollView>
     );
   };
 
