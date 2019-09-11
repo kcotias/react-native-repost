@@ -7,19 +7,20 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import themeStyles from '../../config/theme.styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const RepostItem = ({ author, description, thumbnail }) => {
   return (
     <TouchableWithoutFeedback onPress={() => alert('Clicou')}>
       <View style={{ flexDirection: 'row', margin: 10, marginVertical: 5 }}>
         <Image
-          style={{ height: 80, width: 80, flex: 1, borderRadius: 8 }}
+          style={{ height: 75, width: 75 }}
           source={thumbnail}
           resizeMode="contain"
         />
         <View
           style={{
-            flex: 2,
+            flex: 1,
             justifyContent: 'center',
             paddingLeft: 10,
           }}>
@@ -33,13 +34,13 @@ const RepostItem = ({ author, description, thumbnail }) => {
               color: 'gray',
             }}
             ellipsizeMode="tail"
-            numberOfLines={2}>
+            numberOfLines={3}>
             {description}
           </Text>
         </View>
-        <View>
+        <View style={{ justifyContent: 'center' }}>
           <TouchableOpacity>
-            <Text>next</Text>
+            <Icon name="chevron-right" size={15} color="gray" />
           </TouchableOpacity>
         </View>
       </View>
