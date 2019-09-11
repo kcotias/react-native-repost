@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Image, Modal, Alert } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  Image,
+  Modal,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import firebase from 'react-native-firebase';
-import GradientButton from '../../components/Button/Button';
+import GradientButton from '@components/Button/Button';
 import styles from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -12,21 +20,31 @@ const Login = ({ navigation }) => {
   const [confirmResultObj, setConfirmResult] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
   const signIn = number => {
+    console.log('tamo aqui');
     firebase
       .auth()
       .signInWithPhoneNumber(`+55${number}`)
       .then(confirmResult => {
         console.log(confirmResult);
         setConfirmResult(confirmResult);
-        setModalVisible(true);
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            navigation.navigate('HOME');
+          } else {
+            setModalVisible(true);
+          }
+        });
       })
-      .catch(() => Alert.alert('Ops...', 'Ocorreu um erro, tenta denovo.'));
+      .catch(e => console.log(e));
   };
   return (
     <View style={styles.container}>
       <Modal animationType="slide" transparent={true} visible={isModalVisible}>
         <View style={[styles.container, { paddingHorizontal: 15 }]}>
           <View style={styles.modal}>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text>Close</Text>
+            </TouchableOpacity>
             <View
               style={{
                 ...styles.modalContainer,
@@ -50,11 +68,12 @@ const Login = ({ navigation }) => {
                   .then(result => {
                     AsyncStorage.setItem('@user', true);
                     navigation.navigate('HOME');
+                    setModalVisible(false);
                   })
                   .catch(error => {
+                    console.log(error);
                     setError('Ocorreu um erro, tente novamente.');
                   });
-                setModalVisible(false);
               }}
               text="Send code"
             />

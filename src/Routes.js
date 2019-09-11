@@ -3,14 +3,15 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Home from '@pages/Home/Home';
 import Repost from '@pages/Repost/Repost';
 import Login from '@pages/Login/Login';
-import AsyncStorage from '@react-native-community/async-storage';
+import firebase from 'react-native-firebase';
 
 function getInitialScreen() {
-  AsyncStorage.getItem('@user')
-    .then(value => {
-      return value ? 'HOME' : 'LOGIN';
-    })
-    .catch(err => {});
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      return 'Home';
+    }
+    return 'Login';
+  });
 }
 
 const Routes = createStackNavigator(

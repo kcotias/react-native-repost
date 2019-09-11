@@ -66,12 +66,12 @@ const styles = StyleSheet.create({
       width: 4,
     },
     shadowRadius: 5,
-    elevation: 6,
     paddingVertical: 8,
   },
   input: {
     borderRadius: 40,
     paddingLeft: 20,
+    elevation: 8,
     backgroundColor: '#fff',
     width: '100%',
     height: 44,

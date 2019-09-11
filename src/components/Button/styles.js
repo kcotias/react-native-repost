@@ -11,12 +11,12 @@ const styles = StyleSheet.create({
       width: 4,
     },
     shadowRadius: 5,
-    elevation: 6,
   },
   btn: {
     borderRadius: 40,
     paddingHorizontal: 30,
     paddingVertical: 8,
+    elevation: 8,
   },
   text: {
     fontWeight: FONT_WEIGHT_MEDIUM,
